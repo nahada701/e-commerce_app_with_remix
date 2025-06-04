@@ -1,25 +1,28 @@
 import {
+  CartProvider
+} from "/build/_shared/chunk-VVZK5JFR.js";
+import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration
-} from "/build/_shared/chunk-NTD7GPJS.js";
+} from "/build/_shared/chunk-2A6JWUTX.js";
+import "/build/_shared/chunk-U4FRFQSK.js";
 import {
   createHotContext
 } from "/build/_shared/chunk-PZLREGOM.js";
-import "/build/_shared/chunk-U4FRFQSK.js";
+import "/build/_shared/chunk-UWV35TSL.js";
 import {
   require_jsx_dev_runtime
 } from "/build/_shared/chunk-XGOTYLZ5.js";
 import "/build/_shared/chunk-7M6SC7J5.js";
-import "/build/_shared/chunk-UWV35TSL.js";
 import {
   __toESM
 } from "/build/_shared/chunk-PNG5AS42.js";
 
 // app/tailwind.css?url
-var tailwind_default = "/build/_assets/tailwind-L44JL4Y5.css?url";
+var tailwind_default = "/build/_assets/tailwind-F3J3ZSOE.css?url";
 
 // app/root.tsx
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
@@ -62,57 +65,61 @@ function Layout({
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("head", { children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("meta", { charSet: "utf-8" }, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 41,
+        lineNumber: 42,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 42,
+        lineNumber: 43,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Meta, {}, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 43,
+        lineNumber: 44,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Links, {}, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 44,
+        lineNumber: 45,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/root.tsx",
-      lineNumber: 40,
+      lineNumber: 41,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("body", { children: [
       children,
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ScrollRestoration, {}, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 48,
+        lineNumber: 49,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Scripts, {}, void 0, false, {
         fileName: "app/root.tsx",
-        lineNumber: 49,
+        lineNumber: 50,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "app/root.tsx",
-      lineNumber: 46,
+      lineNumber: 47,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "app/root.tsx",
-    lineNumber: 39,
+    lineNumber: 40,
     columnNumber: 10
   }, this);
 }
 _c = Layout;
 function App() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Outlet, {}, void 0, false, {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CartProvider, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Outlet, {}, void 0, false, {
     fileName: "app/root.tsx",
-    lineNumber: 55,
+    lineNumber: 57,
+    columnNumber: 5
+  }, this) }, void 0, false, {
+    fileName: "app/root.tsx",
+    lineNumber: 56,
     columnNumber: 10
   }, this);
 }
@@ -128,4 +135,4 @@ export {
   App as default,
   links
 };
-//# sourceMappingURL=/build/root-2W7KRJJ6.js.map
+//# sourceMappingURL=/build/root-ORB4N3YZ.js.map

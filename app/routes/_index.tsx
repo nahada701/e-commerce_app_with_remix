@@ -1,9 +1,11 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Header from "~/component/Header";
-import ProductCard from "~/component/productcard";
+import { lazy, Suspense } from 'react';
+const Header = lazy(() => import('~/component/Header'));
+const Pagination = lazy(() => import('~/component/Pagination'));
+const ProductCard = lazy(() => import('~/component/ProductCard'));
 
 export const meta: MetaFunction = () => [
   { title: "E commerce app" },
@@ -11,121 +13,91 @@ export const meta: MetaFunction = () => [
 ];
 
 export const loader = async () => {
-  const response = await axios.get("https://dummyjson.com/products");
-  return { total: response.data.products.length ,products:response.data.products};
+  const response = await axios.get("https://dummyjson.com/products?limit=0");
+  const categories=await axios.get('https://dummyjson.com/products/categories')
+  return {productData:response.data.products,categories:categories.data}
+
 };
 
 
 export default function Index() {
-
-
-  const [searchTerm,setSearchTerm]=useState<string>("")
-  console.log(searchTerm);
-  
-  const loaderData:any = useLoaderData();
-  const [numOfProducts,setNumOfProducts]=useState(loaderData.total)
-
-  
+  const [searchProducts, setSearchProducts] = useState([])
+  const [searchKey, setSearchKey] = useState("")
+  const {productData,categories}: any = useLoaderData();
+  console.log(categories)
   const productPerPage = 8;
-  const lastPage = Math.ceil(numOfProducts / productPerPage);
-
   const [currentPage, setCurrentpage] = useState(1);
-  const [products,setProducts]=useState(loaderData.products)
+  const products = searchKey ? searchProducts : productData;
 
-console.log(products);
+  const handlePageClick = (page: number) => {
+    if(navigator.onLine){
 
-  
-  const handlePageClick=(page:number)=>{
-    setCurrentpage(page)
-  }
-  const handlePrevClick=()=>{
-  setCurrentpage(prev=>prev-1)
-
-  }
-
-  const handleNextClick=()=>{
-    setCurrentpage(prev=>prev+1)
-  
+      setCurrentpage(page)
     }
+    else{
+      alert("Check Your Internet Connection")
+    }
+  }
+  useEffect(() => {
+    if (searchKey?.trim() !== "") {
+      const filtered = productData.filter((item: any) =>
+        item.title.toLowerCase().includes(searchKey.toLowerCase())
+      );
+      setSearchProducts(filtered);
+      setCurrentpage(1);
 
-    useEffect(()=>{
-      const fetchProducts=async()=>{
-        if(searchTerm!==""){
-          const res=await axios.get(`https://dummyjson.com/products/search?q=${searchTerm}`)
-          console.log(res);
-          
-          setProducts(res.data.products)
-          setNumOfProducts(res.data.products.length)
-        }
-        else{
-          const res=await axios.get(`https://dummyjson.com/products/search?q=${searchTerm}`)
-          
-          setProducts(res.data.products)
-          setNumOfProducts(res.data.products.length)
-        }
-        }
-    
-      fetchProducts()
-    },[searchTerm])
-  
+    } else {
+      setSearchProducts([]);
+    }
+  }, [searchKey, productData]);
 
+
+  // saving category inside local storage
+
+  useEffect(()=>{
+    if(categories && Array.isArray(categories)){
+      localStorage.setItem("categories",JSON.stringify(categories))
+    }
+  },[categories])
   return (
     <div>
-      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Header  currentPage={currentPage} searchKey={searchKey} setSearchKey={setSearchKey} />
       {
-        numOfProducts>0 ?
-        <div>
-  <div className="flex my-10 gap-4 sm:flex-row justify-center items-center flex-wrap">
-  {
+        products.length > 0 ?
+          <div >
+            <div className="min-h-screen">
+              <div className="flex mt-10 mb-4 gap-4 sm:flex-row justify-center   flex-wrap">
+                <Suspense fallback={<div>Loading searchProducts...</div>}>
+                  {
+                    products
+                      .slice((currentPage - 1) * productPerPage, currentPage * productPerPage)
+                      .map((item: any) =>
+                        <ProductCard key={item.id} item={item} />
+                      )
+                  }
+                </Suspense>
 
-      products.slice((currentPage-1)*productPerPage,currentPage*productPerPage).map(item=>
-       <ProductCard item={item}></ProductCard>
-      )
-    }
-      </div>
+              </div>
+            </div>
 
-      <div className="flex gap-3 justify-center">
-        <div className="flex flex-row gap-2 my-5">
-          <button
-            className={`border rounded w-[40px] h-[40px] text-white ${
-              currentPage === 1 ? "bg-indigo-100" : "bg-indigo-300"
-            }`}
-            onClick={handlePrevClick}
-            disabled={currentPage === 1}
-          >
-            «
-          </button>
+            {/* pagination */}
+            <Pagination
+              limit={productPerPage}
+              offset={currentPage}
+              totalItems={products.length}
+              onPageChange={handlePageClick}
+              primaryColor="bg-indigo-400"
+              textColor="text-white"
+              totalToShow={5}
 
-          {Array.from({ length: lastPage }).map((_, index) => (
-            <button
-              className={`border rounded w-[40px] h-[40px] ${
-                currentPage === index + 1 ? "bg-indigo-400 text-white" : "border-indigo-300"
-              }`}
-              key={index}
-              onClick={() => handlePageClick(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-
-          <button
-            className={`border rounded w-[40px] h-[40px] text-white ${
-              currentPage === lastPage ? "bg-indigo-100" : "bg-indigo-300"
-            }`}
-            onClick={handleNextClick}
-            disabled={currentPage === lastPage}
-          >
-            »
-          </button>
-        </div>
-      </div>
-        </div>
-        :
-        <div className="my-10 ">
-          <p className="text-xl text-center text-red-500">No product found</p>
-        </div>
+            />
+          </div>
+          :
+          <div className="my-10 ">
+            <p className="text-xl text-center text-red-500">No product found</p>
+          </div>
       }
-    
+
     </div>
   );
 }

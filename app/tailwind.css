@@ -10,3 +10,13 @@ body {
     color-scheme: dark;
   }
 }
+@media (max-width: 640px) {
+  .placeholder-xs::placeholder {
+    font-size: 10px;
+  }
+}
+@media (min-width: 641px) {
+  .placeholder-xs::placeholder {
+    font-size: 14px;
+  }
+}
