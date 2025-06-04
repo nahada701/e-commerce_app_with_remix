@@ -1,4 +1,4 @@
-import { act, createContext, ReactNode, useContext, useReducer } from "react";
+import { createContext, ReactNode, useContext, useReducer } from "react";
 
 type Review = {
     rating: number;
@@ -132,7 +132,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
     const context = useContext(CartContext)
     if (!context) {
-        throw new Error("useCart must be used within a CartProvider")
+        throw new Error("CartProvider is missing")
     }
     else {
         return context

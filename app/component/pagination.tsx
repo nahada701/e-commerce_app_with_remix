@@ -16,7 +16,7 @@ export default function Pagination({
   offset,
   totalItems,
   onPageChange,
-  primaryColor = "bg-indigo-400",
+  primaryColor = "bg-dark_purple",
   textColor = "text-white",
   totalToShow =5
 }: PaginationProps) {

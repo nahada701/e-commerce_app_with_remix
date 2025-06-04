@@ -1,9 +1,12 @@
 import {
+  isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import styles from "./tailwind.css?url";
@@ -49,3 +52,38 @@ export default function App() {
   )
 
 }
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div className="w-full h-screen items-center  flex flex-col justify-center ">
+        <div className="bg-indigo-400 p-10 text-white flex flex-col items-center">
+        <h1 className="text-3xl text-center">
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+        <Link className="underline text-center" to="/">Go home</Link>
+        </div>
+      
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div className="w-full h-screen items-center  flex flex-col justify-center ">
+        <div className="bg-indigo-400 p-10 text-white flex flex-col items-center">
+        <h1 className="text-3xl text-center">
+        {error.name} : {error.message} 
+        </h1>
+  
+        <Link className="underline text-center" to="/">Go home</Link>
+        </div>
+      
+      </div>
+   
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}
+

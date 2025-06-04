@@ -16,6 +16,12 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      colors:{
+        "primary_purple": "#a5b4fb",
+        "secondary_purple": "#c7d2fe",
+        "dark_purple":"#818cf8"
+
+      }
     },
   },
   plugins: [],
